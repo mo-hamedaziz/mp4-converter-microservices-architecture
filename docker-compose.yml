@@ -1,0 +1,32 @@
+services:
+  authdb:
+    image: mysql
+    container_name: authdb
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass123
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./src/auth-service/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - authdb-data:/var/lib/mysql
+    networks:
+      - auth-network
+  
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    environment:
+      PMA_HOST: authdb
+      PMA_PORT: 3306
+      PMA_USER: root
+      PMA_PASSWORD: rootpass123
+    ports:
+      - "8080:80"
+    networks:
+      - auth-network
+
+networks:
+  auth-network:
+
+volumes:
+  authdb-data:
