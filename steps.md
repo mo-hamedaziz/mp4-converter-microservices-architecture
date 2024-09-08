@@ -14,3 +14,5 @@
    3. Activate the virtual environment using `source ./venv/bin/activate` or `.\venv\Scripts\Activate` if you're on windows.
    4. Create a new file called `server.py`, and populate it.
    5. Create a `init.sql` file to initiate the DB and it's users, and populate it.
+   6. Use the `pip install -r requirements.txt` command to install necessary dependencies from the `requirements.txt` file.
+   7. Create the `Dockerfile` for the auth-service, and populate it.

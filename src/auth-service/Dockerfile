@@ -1,8 +1,12 @@
-FROM python:3.10-slim-bullseye
+FROM python:slim-bullseye
 
+# Install build dependencies and pkg-config
 RUN apt-get update \
   && apt-get install -y --no-install-recommends --no-install-suggests \
-  build-essential default-libmysqlclient-dev \
+     build-essential \
+     default-libmysqlclient-dev \
+     pkg-config \
+  && rm -rf /var/lib/apt/lists/* \
   && pip install --no-cache-dir --upgrade pip
 
 WORKDIR /app

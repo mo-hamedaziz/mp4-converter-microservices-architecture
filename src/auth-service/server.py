@@ -1,5 +1,5 @@
 import jwt, datetime, os
-from flask import Flask, request
+from flask import Flask, request, render_template_string
 from flask_mysqldb import MySQL
 from dotenv import load_dotenv
 
@@ -15,6 +15,10 @@ server.config["MYSQL_USER"] = os.getenv("MYSQL_USER")
 server.config["MYSQL_PASSWORD"] = os.getenv("MYSQL_PASSWORD")
 server.config["MYSQL_DB"] = os.getenv("MYSQL_DB")
 server.config["MYSQL_PORT"] = int(os.getenv("MYSQL_PORT"))
+
+@server.route("/", methods=["GET"])
+def home():
+    return render_template_string("<h1>Hello, this is the authentication server :)</h1>")
 
 @server.route("/login", methods=["POST"])
 def login():
@@ -75,4 +79,4 @@ def createJWT(username, secret, authz):
 
 
 if __name__ == "__main__":
-    server.run(host="0.0.0.0", port=5000)
+    server.run(host=os.getenv("HOST", "0.0.0.0"), port=os.getenv("PORT", 5000), debug=True)
