@@ -14,6 +14,10 @@ COPY ./requirements.txt /app
 RUN pip install --no-cache-dir --requirement /app/requirements.txt
 COPY . /app
 
+# Set environment variables
+ENV FLASK_APP=app.py
+ENV FLASK_ENV=development
+
 EXPOSE 5000
 
 CMD ["python3", "server.py"]
