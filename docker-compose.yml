@@ -35,6 +35,35 @@ services:
     networks:
       - auth-network
 
+  gateway:
+    build: ./src/gateway
+    container_name: gateway
+    depends_on:
+      - auth-service
+      - rabbitmq
+      - mongodb
+    ports:
+      - "3002:8080"
+    volumes:
+      - ./src/gateway:/app
+    networks:
+      - auth-network
+      - queue-network
+
+  mongodb:
+    image: mongo
+    container_name: mongodb
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mongouser
+      MONGO_INITDB_ROOT_PASSWORD: mongopass
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb-data:/data/db
+      - ./src/gateway/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js
+    networks:
+      - queue-network
+
   rabbitmq:
       image: rabbitmq:3-management
       container_name: rabbitmq
@@ -56,3 +85,4 @@ networks:
 volumes:
   authdb-data:
   rabbitmq-data:
+  mongodb-data:
