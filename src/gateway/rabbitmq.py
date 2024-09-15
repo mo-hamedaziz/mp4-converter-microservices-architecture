@@ -10,10 +10,10 @@ def get_rabbitmq_connection():
         try:
             connection = pika.BlockingConnection(
                 pika.ConnectionParameters(
-                    os.getenv('RABBITMQ_HOST', 'rabbitmq'),
+                    host=os.getenv('RABBITMQ_HOST'),
                     credentials=pika.PlainCredentials(
-                        os.getenv('RABBITMQ_USER', 'rabbituser'),
-                        os.getenv('RABBITMQ_PASS', 'rabbitpass')
+                        os.getenv('RABBITMQ_USER'),
+                        os.getenv('RABBITMQ_PASS')
                     )
                 )
             )

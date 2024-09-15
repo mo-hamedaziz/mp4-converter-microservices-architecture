@@ -16,3 +16,4 @@
    5. Create a `init.sql` file to initiate the DB and it's users, and populate it.
    6. Use the `pip install -r requirements.txt` command to install necessary dependencies from the `requirements.txt` file.
    7. Create the `Dockerfile` for the auth-service, and populate it.
+   8. minikube service rabbitmq --url
