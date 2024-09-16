@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
         - name: converter
-          image: mohamedazizbchini/mp4-converter-converter-svc:v1
+          image: mohamedazizbchini/mp4-converter-converter-svc:v4
           envFrom:
             - configMapRef:
                 name: converter-configmap
