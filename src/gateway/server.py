@@ -13,9 +13,9 @@ load_dotenv()
 
 server = Flask(__name__)
 
-mongo_video = PyMongo(server, uri=f"{os.getenv('MONGO_URI')}/videos")
+mongo_video = PyMongo(server, uri=f"{os.getenv('MONGO_URI')}/videos?authSource=admin")
 
-mongo_mp3 = PyMongo(server, uri=f"{os.getenv('MONGO_URI')}/mp3s")
+mongo_mp3 = PyMongo(server, uri=f"{os.getenv('MONGO_URI')}/mp3s?authSource=admin")
 
 fs_videos = gridfs.GridFS(mongo_video.db)
 fs_mp3s = gridfs.GridFS(mongo_mp3.db)
