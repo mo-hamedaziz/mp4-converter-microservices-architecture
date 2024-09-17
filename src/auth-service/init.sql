@@ -2,10 +2,13 @@
 CREATE DATABASE IF NOT EXISTS authdb;
 
 -- Create user with no GRANT option
-CREATE USER 'auth_user'@'authdb' IDENTIFIED BY 'Auth123';
+CREATE USER 'auth_user'@'%' IDENTIFIED BY 'Auth123';
 
 -- Grant all privileges on the specific database
-GRANT ALL PRIVILEGES ON authdb.* TO 'auth_user'@'authdb';
+GRANT ALL PRIVILEGES ON authdb.* TO 'auth_user'@'%';
+
+-- Apply changes
+FLUSH PRIVILEGES;
 
 -- Use the created database
 USE authdb;
