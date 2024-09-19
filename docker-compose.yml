@@ -3,7 +3,7 @@ services:
     image: mysql
     container_name: authdb
     environment:
-      MYSQL_ROOT_PASSWORD: rootpass123
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     volumes:
       - ./src/auth-service/init.sql:/docker-entrypoint-initdb.d/init.sql
       - authdb-data:/var/lib/mysql
@@ -18,8 +18,8 @@ services:
     environment:
       PMA_HOST: authdb
       PMA_PORT: 3306
-      PMA_USER: root
-      PMA_PASSWORD: rootpass123
+      PMA_USER: ${PMA_USER}
+      PMA_PASSWORD: ${PMA_PASSWORD}
     ports:
       - "8080:80"
     networks:
@@ -29,8 +29,8 @@ services:
     image: mongo
     container_name: mongodb
     environment:
-      MONGO_INITDB_ROOT_USERNAME: mongouser
-      MONGO_INITDB_ROOT_PASSWORD: mongopass
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
     ports:
       - "27017:27017"
     volumes:
