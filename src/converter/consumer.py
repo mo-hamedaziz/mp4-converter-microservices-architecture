@@ -5,7 +5,7 @@ from convert import to_mp3
 
 
 def main():
-    client = MongoClient("mongodb://mongouser:mongopass@host.minikube.internal:27017") #Add ?authSource=admin if it's not working
+    client = MongoClient(f"{os.getenv('MONGO_URI')}") #Add ?authSource=admin if it's not working
     db_videos = client.videos
     db_mp3s = client.mp3s
     # gridfs
@@ -13,7 +13,15 @@ def main():
     fs_mp3s = gridfs.GridFS(db_mp3s)
 
     # rabbitmq connection
-    connection = pika.BlockingConnection(pika.ConnectionParameters(host="rabbitmq", credentials=pika.PlainCredentials("rabbituser", "rabbitpass")))
+    connection = pika.BlockingConnection(
+                pika.ConnectionParameters(
+                    host=os.getenv('RABBITMQ_HOST'),
+                    credentials=pika.PlainCredentials(
+                        os.getenv('RABBITMQ_USER'),
+                        os.getenv('RABBITMQ_PASS')
+                    )
+                )
+            )
     channel = connection.channel()
 
     def callback(ch, method, properties, body):
