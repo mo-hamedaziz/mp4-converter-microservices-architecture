@@ -3,7 +3,7 @@ services:
     image: mysql
     container_name: authdb
     environment:
-      MYSQL_ROOT_PASSWORD: rootpass123
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     volumes:
       - ./src/auth-service/init.sql:/docker-entrypoint-initdb.d/init.sql
       - authdb-data:/var/lib/mysql
@@ -18,73 +18,28 @@ services:
     environment:
       PMA_HOST: authdb
       PMA_PORT: 3306
-      PMA_USER: root
-      PMA_PASSWORD: rootpass123
+      PMA_USER: ${PMA_USER}
+      PMA_PASSWORD: ${PMA_PASSWORD}
     ports:
       - "8080:80"
     networks:
       - auth-network
 
-  auth-service: 
-    build: ./src/auth-service
-    container_name: auth-service
-    ports:
-      - "3001:5000"
-    depends_on:
-      - authdb
-    volumes:
-      - ./src/auth-service:/app
-    networks:
-      - auth-network
-
-  gateway:
-    build: ./src/gateway
-    container_name: gateway
-    depends_on:
-      - auth-service
-      - rabbitmq
-      - mongodb
-    ports:
-      - "3002:8080"
-    volumes:
-      - ./src/gateway:/app
-    networks:
-      - auth-network
-      - queue-network
-
   mongodb:
     image: mongo
     container_name: mongodb
     environment:
-      MONGO_INITDB_ROOT_USERNAME: mongouser
-      MONGO_INITDB_ROOT_PASSWORD: mongopass
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
     ports:
       - "27017:27017"
     volumes:
       - mongodb-data:/data/db
       - ./src/gateway/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js
-    networks:
-      - queue-network
-
-  rabbitmq:
-      image: rabbitmq:3-management
-      container_name: rabbitmq
-      environment:
-      - RABBITMQ_DEFAULT_USER=rabbituser
-      - RABBITMQ_DEFAULT_PASS=rabbitpass
-      ports:
-        - 5672:5672
-        - 15672:15672
-      volumes:
-        - rabbitmq-data:/var/lib/rabbitmq
-      networks:
-        - queue-network
 
 networks:
   auth-network:
-  queue-network:
 
 volumes:
   authdb-data:
-  rabbitmq-data:
   mongodb-data:

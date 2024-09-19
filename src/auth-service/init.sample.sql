@@ -1,17 +1,17 @@
 -- Create database if it does not exist
-CREATE DATABASE IF NOT EXISTS authdb;
+CREATE DATABASE IF NOT EXISTS db_name;
 
 -- Create user with no GRANT option
-CREATE USER 'auth_user'@'%' IDENTIFIED BY 'Auth123';
+CREATE USER 'db_user_username'@'%' IDENTIFIED BY 'db_user_password';
 
 -- Grant all privileges on the specific database
-GRANT ALL PRIVILEGES ON authdb.* TO 'auth_user'@'%';
+GRANT ALL PRIVILEGES ON db_name.* TO 'db_user_username'@'%';
 
 -- Apply changes
 FLUSH PRIVILEGES;
 
 -- Use the created database
-USE authdb;
+USE db_name;
 
 -- Create table if it does not exist
 CREATE TABLE IF NOT EXISTS user (
@@ -21,5 +21,9 @@ CREATE TABLE IF NOT EXISTS user (
 );
 
 -- Insert initial data if it does not exist
-INSERT INTO user (email, password) VALUES ('aziz@email.com', 'Admin123')
+INSERT INTO user (email, password) VALUES ('user1_email', 'user1_password')
+ON DUPLICATE KEY UPDATE password = VALUES(password);
+
+-- Insert another user if it does not exist
+INSERT INTO user (email, password) VALUES ('user2_email', 'user2_password')
 ON DUPLICATE KEY UPDATE password = VALUES(password);

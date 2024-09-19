@@ -4,7 +4,15 @@ from send import email
 
 def main():
     # rabbitmq connection
-    connection = pika.BlockingConnection(pika.ConnectionParameters(host="rabbitmq", credentials=pika.PlainCredentials("rabbituser", "rabbitpass")))
+    connection = pika.BlockingConnection(
+                pika.ConnectionParameters(
+                    host=os.getenv('RABBITMQ_HOST'),
+                    credentials=pika.PlainCredentials(
+                        os.getenv('RABBITMQ_USER'),
+                        os.getenv('RABBITMQ_PASS')
+                    )
+                )
+            )
     channel = connection.channel()
 
     def callback(ch, method, properties, body):
